@@ -8,16 +8,13 @@
 module.exports = {
   attributes: {
     title: {
-      type: 'email',
-      required: true,
-      unique: true
+      type: 'string',
     },
     description: {
       type: 'text',
-      required: true
     },
     photo:{
-      type: 'string',
+      type: 'text',
       required: true
     },
     user:{
