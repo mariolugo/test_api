@@ -1,7 +1,7 @@
 /**
  * User.js
  *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @description :: TODO: Atributes of user model
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
@@ -22,6 +22,10 @@ module.exports = {
     admin:{
       type: 'string',
       required: true
+    },
+    products: {
+      collection: 'product',
+      via: 'user'
     },
     toJSON: function () {
       var obj = this.toObject();
