@@ -8,6 +8,19 @@ var uuid = require('node-uuid');
 
 module.exports = {
 	/**
+     * Get all products
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     */
+    allProducts: (req,res) => {
+        Product.find()
+        .populate('user')
+        .exec((err,products) =>{
+            if (err) return res.negotiate(err);
+            return res.ok(products)
+        });
+    },
+    /**
      * Create product, only photo
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -131,6 +144,47 @@ module.exports = {
                         });
                     });
             });
+    },
+
+    // SOCKETS //
+
+    /**
+     * package info for sockets
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     */
+    setPackageInfo: (req,res)=>{
+        sails.sockets.blast('newPackageInfo',{
+            info: req.body.info
+        });
+        return res.ok({
+            code: 'SENT'
+        });
+    },
+    infoReceived: (req,res) =>{
+        sails.sockets.blast('infoReceived',{
+            received: req.body.received
+        });
+        return res.ok({
+            code: 'SENT'
+        });
+    },
+    sendPackage: (req,res) =>{
+        sails.sockets.blast('packageSent',{
+            packageSent: req.body.packageSent,
+            packageName: req.body.packageName
+        });
+        return res.ok({
+            code: 'SENT'
+        });
+    },
+    userConfirm: (req,res) =>{
+        sails.sockets.blast('userConfirmed',{
+            received: req.body.received
+        });
+        return res.ok({
+            code: 'SENT'
+        });
     }
 };
 
